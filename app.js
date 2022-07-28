@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 // utilisation des middlewares
 
 app.use(express.json());
-app.use('/api/sauce',sauceRoutes);
+app.use('/api/sauces',sauceRoutes);
 app.use('/api/auth',userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
