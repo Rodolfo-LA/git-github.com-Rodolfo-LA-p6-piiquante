@@ -1,4 +1,6 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); // Utilisation du module JETON
+
+// Contrôle pour autorisation de l'utilisateur par comparaison de jeton
 
 module.exports = (req, res, next) => {
    try {

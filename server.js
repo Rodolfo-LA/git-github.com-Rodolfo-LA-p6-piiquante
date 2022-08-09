@@ -1,5 +1,7 @@
-const http = require('http');
-const app = require('./app');
+const http = require('http');    // Utilisation du module HTTP
+const app = require('./app');    // Utilisation du module app
+
+// Conversion de la valeur du Port pour le serveur
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -14,6 +16,8 @@ const normalizePort = val => {
 };
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+
+// Gestion des erreurs du serveur
 
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
@@ -35,6 +39,8 @@ const errorHandler = error => {
   }
 };
 
+// Création du seveur avec le protocole HTTP
+
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
@@ -43,5 +49,7 @@ server.on('listening', () => {
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
   console.log('Listening on ' + bind);
 });
+
+// Mise en écoute du serveur sur le port
 
 server.listen(port);

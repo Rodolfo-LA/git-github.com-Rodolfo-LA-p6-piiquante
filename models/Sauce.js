@@ -1,5 +1,7 @@
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // Utilisation du module mongoose
+
+// Définition du modèle de données pour la base mongoDB des sauces
 
 const sauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
@@ -15,4 +17,4 @@ const sauceSchema = mongoose.Schema({
   usersDisliked: { type: [String], required: true },
 });
 
-module.exports = mongoose.model('Sauce', sauceSchema);
+module.exports = mongoose.model('Sauce', sauceSchema);   // Exportation du modèle sauce

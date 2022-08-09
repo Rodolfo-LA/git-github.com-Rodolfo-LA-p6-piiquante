@@ -1,10 +1,15 @@
-const multer = require('multer');
+const multer = require('multer'); // Utilisation du module MULTER pour la gestion des fichiers
+
+
+// Définition du type d'images utilisables par le standard MIME
 
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
   'image/png': 'png'
 };
+
+// Enregistrement du fichier images physiquement sur disque
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -17,4 +22,4 @@ const storage = multer.diskStorage({
   }
 });
 
-module.exports = multer({storage: storage}).single('image');
+module.exports = multer({storage: storage}).single('image'); // pour utilisation dans le serveur

@@ -1,6 +1,8 @@
 
-const Sauce = require('../models/Sauce');
-const fs = require('fs');
+const Sauce = require('../models/Sauce'); // Import du modèle sauce
+const fs = require('fs');     // module pour la gestion des fichiers locaux
+
+// Middleware pour créer une sauce dans la base de donnée
 
 exports.createSauce = (req, res, next) => {
    const sauceObject = JSON.parse(req.body.sauce);
@@ -20,6 +22,8 @@ exports.createSauce = (req, res, next) => {
       .then(() => res.status(201).json({ message: 'recorded sauce !' }))
       .catch(error => res.status(400).json({ error }));
 };
+
+// Middleware pour modifier une sauce dans la base de donnée
 
 exports.modifySauce = (req, res, next) => {
    const sauceObject = req.file ? {
@@ -44,6 +48,8 @@ exports.modifySauce = (req, res, next) => {
       });
 };
 
+// Middleware pour effacer une sauce dans la base de donnée
+
 exports.deleteSauce = (req, res, next) => {
    Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
@@ -63,11 +69,15 @@ exports.deleteSauce = (req, res, next) => {
       });
 };
 
+// Middleware pour la récupération d'une sauce par son id
+
 exports.getOneSauce = (req, res, next) => {
    Sauce.findOne({ _id: req.params.id })
       .then(sauce => res.status(200).json(sauce))
       .catch(error => res.status(404).json({ error }));
 };
+
+// Middleware pour la récupération de toutes les sauces
 
 exports.getAllSauces = (req, res, next) => {
    Sauce.find()
@@ -75,13 +85,15 @@ exports.getAllSauces = (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
 }
 
+// Middleware pour la gestion des likes
+
 exports.likeSauce = (req, res, next) => {
    Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
          // traitement like
          switch (req.body.like) {
             case 0:
-               // chercher dans quel tab est l'utilisateur
+               // chercher dans quel tableau est l'utilisateur
                // supp du tableau l'utlisateur
                // si dans userliked sauce.likes--
                // else sauce.dislikes-- 
@@ -102,12 +114,12 @@ exports.likeSauce = (req, res, next) => {
             case 1:
                sauce.likes++;
                // ajout userId au tab usersLiked
-               sauce.usersLiked.push(req.auth.userId);    // à corriger
+               sauce.usersLiked.push(req.auth.userId);
                break;
             case -1:
                sauce.dislikes++;
                // ajout userId au tab usersDisliked
-               sauce.usersDisliked.push(req.auth.userId); // à corriger
+               sauce.usersDisliked.push(req.auth.userId); 
                break;
          }
          const sauceObject = JSON.parse(JSON.stringify(sauce));

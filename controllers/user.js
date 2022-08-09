@@ -1,11 +1,11 @@
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');      // Utilsation du module pour cryptage
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');   // Utilisation du module pour l'usage de JETON
 
 // gestion des utilisateurs
 
-// Création du compte utilisateur
+// Création du compte utilisateur dans la base mongoDB
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)    // promise : hachage du mot de passe
@@ -22,20 +22,20 @@ exports.signup = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
   };
 
-// Connexion au compte utilisateur
+// Connexion au compte utilisateur dans la base mongoDB
 
   exports.login = (req, res, next) => {
     console.log(req.body.email);
     User.findOne({ email: req.body.email })   // recherche de l'utilisateur dans la base
         .then(user => {
             if (!user) {
-                return res.status(401).json({ message: 'Paire login/mot de passe incorrecte'});
+                return res.status(401).json({ message: 'Incorrect login/password pair'});
             }
             console.log(req.body.password);
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
+                        return res.status(401).json({ message: 'Incorrect login/password pair' });
                     }
                     res.status(200).json({
                         userId: user._id,
