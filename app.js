@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 // Utilisation des middlewares gestion json & sécurité express
 
 app.use(express.json());
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 // Utilisation des middlewares liés aux différentes routes
 
