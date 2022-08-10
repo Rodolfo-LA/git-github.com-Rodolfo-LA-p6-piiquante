@@ -97,11 +97,7 @@ exports.likeSauce = (req, res, next) => {
                // supp du tableau l'utlisateur
                // si dans userliked sauce.likes--
                // else sauce.dislikes-- 
-
-               console.log('Utilisateur actuel --> ' + req.auth.userId);
-
                let pos = sauce.usersLiked.indexOf(req.auth.userId);
-               console.log('val like = ' + pos);
                if (pos != -1) {
                   sauce.usersLiked.splice(pos, 1);
                   sauce.likes--;
@@ -126,7 +122,6 @@ exports.likeSauce = (req, res, next) => {
          delete sauceObject._id;
          delete sauceObject._userId;
          delete sauceObject.__v;
-         console.log(sauceObject);
          Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
             .then(() => res.status(200).json({ message: 'Updated like' }))
             .catch(error => res.status(401).json({ error }));

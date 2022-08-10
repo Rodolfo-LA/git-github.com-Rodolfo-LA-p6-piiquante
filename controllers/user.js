@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');      // Utilsation du module pour cryptage
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');   // Utilisation du module pour l'usage de JETON
+require('dotenv').config();            // Appel aux variables d'environnement
 
 // gestion des utilisateurs
 
@@ -14,7 +15,6 @@ exports.signup = (req, res, next) => {
           email: req.body.email,
           password: hash
         });
-        console.log({ user });
         user.save()     // promise : enregistrement dans la base.
           .then(() => res.status(201).json({ message: 'Utilisateur enregistré' }))
           .catch(error => res.status(400).json({ error }));
@@ -25,13 +25,11 @@ exports.signup = (req, res, next) => {
 // Connexion au compte utilisateur dans la base mongoDB
 
   exports.login = (req, res, next) => {
-    console.log(req.body.email);
     User.findOne({ email: req.body.email })   // recherche de l'utilisateur dans la base
         .then(user => {
             if (!user) {
                 return res.status(401).json({ message: 'Incorrect login/password pair'});
             }
-            console.log(req.body.password);
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
@@ -41,7 +39,7 @@ exports.signup = (req, res, next) => {
                         userId: user._id,
                         token: jwt.sign(
                             { userId: user._id },
-                            'RANDOM_TOKEN_SECRET',
+                            process.env.tokenDef,
                             { expiresIn: '24h' }
                         )
                     });
