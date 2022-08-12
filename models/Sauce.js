@@ -1,5 +1,7 @@
 
 const mongoose = require('mongoose'); // Utilisation du module mongoose
+const mongodbErrorHandler = require('mongoose-mongodb-errors'); // gestion des erreurs mongoDB
+mongoose.plugin(mongodbErrorHandler);
 
 // Définition du modèle de données pour la base mongoDB des sauces
 

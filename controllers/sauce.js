@@ -56,9 +56,10 @@ exports.deleteSauce = (req, res, next) => {
          if (sauce.userId != req.auth.userId) {
             res.status(401).json({ message: 'Not authorized' });
          } else {
-            const filename = sauce.imageUrl.split('/images/')[1];
+            const filename = sauce.imageUrl.split('/images/')[1]; 
+            // suppression asynchrone du fichier physiquement sur le disque
             fs.unlink(`images/${filename}`, () => {
-               Sauce.deleteOne({ _id: req.params.id })
+               Sauce.deleteOne({ _id: req.params.id }) // suppression dans la base de données
                   .then(() => { res.status(200).json({ message: 'sauce removed' }) })
                   .catch(error => res.status(401).json({ error }));
             });
